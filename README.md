@@ -15,7 +15,7 @@ Deploy
 If you're using Liferay Portal with Tomcat, copy the war to the deploy directory.
 
 ```
-$ cp target/liferay-upload-portlet.war $LIFERAY_HOME/deploy/
+$ cp target/liferay-grid-portlet.war $LIFERAY_HOME/deploy/
 ```
 
 Configuration

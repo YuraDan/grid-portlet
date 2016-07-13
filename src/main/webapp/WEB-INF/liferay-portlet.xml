@@ -4,7 +4,7 @@
 
 <liferay-portlet-app>
 	<portlet>
-		<portlet-name>liferay-upload-portlet</portlet-name>
+		<portlet-name>liferay-grid-portlet</portlet-name>
 		<icon>/icon.png</icon>
 		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>

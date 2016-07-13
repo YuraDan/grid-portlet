@@ -6,14 +6,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import ru.gradis.sovzond.geoserver.Geoserver;
-import ru.gradis.sovzond.model.dao.ParcelDAO;
-import ru.gradis.sovzond.model.dao.UserRegistrDAO;
+import ru.gradis.sovzond.model.dao.GridConfigDAO;
+import ru.gradis.sovzond.model.dao.GridDataDAO;
 import ru.gradis.sovzond.model.dao.XmlAnalysisDAO;
-import ru.gradis.sovzond.model.dao.impl.ParcelDAOImpl;
-import ru.gradis.sovzond.model.dao.ReferenceDAO;
-import ru.gradis.sovzond.model.dao.impl.ReferenceDAOImpl;
-import ru.gradis.sovzond.model.dao.impl.UserRegistrDAOImpl;
+import ru.gradis.sovzond.model.dao.impl.GridConfigDAOImpl;
+import ru.gradis.sovzond.model.dao.impl.GridDataDAOImpl;
 import ru.gradis.sovzond.model.dao.impl.XmlAnalysisDAOImpl;
 
 import javax.sql.DataSource;
@@ -45,23 +42,19 @@ public class RootContext extends WebMvcConfigurerAdapter {
 //	}
 
 	@Bean
-	public ParcelDAO getParcelDAO() {
-		return new ParcelDAOImpl(getDataSource());
-	}
-
-	@Bean
 	public XmlAnalysisDAO getXmlAnalysisDAO() {
 		return new XmlAnalysisDAOImpl(getDataSource());
 	}
 
 	@Bean
-	public UserRegistrDAO getUserRegistrDAO() {
-		return new UserRegistrDAOImpl(getDataSource());
+	public GridConfigDAO gridConfigDAO() {
+		return new GridConfigDAOImpl(getDataSource());
 	}
 
+
 	@Bean
-	public Geoserver getGeoserver() {
-		return new Geoserver();
+	public GridDataDAO gridDataDAO() {
+		return new GridDataDAOImpl(getDataSource());
 	}
 
 

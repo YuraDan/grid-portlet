@@ -3,6 +3,6 @@
 
 <display>
 	<category name="Sovzond">
-		<portlet id="liferay-upload-portlet" />
+		<portlet id="liferay-grid-portlet" />
 	</category>
 </display>
