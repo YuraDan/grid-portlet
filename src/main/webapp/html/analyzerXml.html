@@ -1,0 +1,36 @@
+<div class="uploadBlock {{isExistData && isShowData && registeredData !== null && 'is-show-data' || 'is-hide-data'}}">
+    <!-- Загрузка файла -->
+    <gr-upload-file ng-class="{ 'progressHide' : isAnalyseProgress, 'showKpt': registeredData !== null }"></gr-upload-file>
+    <!-- Индикатор анализа -->
+    <div dx-progress-bar="settings.analyseProgress" ng-show="isAnalyseProgress" class="analyse-progress"></div>
+    <!-- Сообщения -->
+    <div ng-repeat="message in messageArray track by $index" class="messages">
+        <p>{{message}}</p>
+    </div>
+    <!-- Кнопка "Подробная информация" -->
+    <div id="detailButton" dx-button="settings.detailInfo" class="detailButton"></div>
+</div>
+<div class="registrationBlock">
+    <!-- Форма регистрации -->
+    <gr-data-form ng-show="isShowData && isShowForm && registeredData === null" class="registration"></gr-data-form>
+    <p ng-show="isShowForm && errorMessage !== ''" class="errorMessage">{{errorMessage}}</p>
+</div>
+<!-- Подробная информация -->
+<div id="detailInfo" class="detailInfo {{showVisibility(isView && isShowData && isExistData && registeredData !== null)}}">
+    <!-- Таблица с данными -->
+    <gr-data-view ng-show="isExistData && isShowData && registeredData !== null" class="dataTable"></gr-data-view>
+    <!-- ГИС-модуль -->
+    <gr-frame class="gis {{isExistData && isShowData && registeredData !== null && 'showGis' || 'hideGis'}}"></gr-frame>
+    <!-- Диаграмма -->
+    <!--<gr-chart class="chart {{showVisibility(isExistData && isShowData && registeredData !== null)}}" style="width:50%"></gr-chart>-->
+    <!-- Заказ -->
+    <div class="order {{isOrdered && 'second' || 'first'}}" ng-show="isExistData && isShowData && registeredData !== null">
+        <p>Спасибо за обращение</p>
+        <p>В ближайшее время наш сотрудник с вами свяжется</p>
+        <span dx-button="settings.order"></span>
+    </div>
+</div>
+
+
+
+

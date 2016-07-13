@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tiled WMS</title>
+	<link rel="stylesheet" href="http://openlayers.org/en/v3.16.0/css/ol.css" type="text/css">
+	<script src="http://openlayers.org/en/v3.16.0/build/ol.js"></script>
+	<style>
+		#legend {
+			position: absolute;
+			top: 8px;
+			right: 8px;
+		}
+	</style>
+</head>
+<body>
+<div id="map" class="map"></div>
+<!-- <img id="legend" src="{0}/{1}/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&WIDTH=20&HEIGHT=20&LAYER={1}:{2}&STYLE=kpt" />-->
+<script>
+	var bbox = {};
+	var layers = [
+		new ol.layer.Tile({
+			source: new ol.source.OSM()
+		}),
+		new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: '{0}/{1}/wms',
+				params: {'LAYERS': '{1}:{2}', 'TILED': false, 'STYLES': 'kpt'},
+				serverType: 'geoserver'
+			})
+		})/*,
+		 new ol.layer.Tile({
+		 source: new ol.source.TileArcGISRest({
+		 url: 'http://maps.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/'
+		 })
+		 })*/
+	];
+	var view = new ol.View({
+		center: [4185000, 7498000],
+		zoom: 10,
+		extent: [{3}]
+
+	});
+	var map = new ol.Map({
+		layers: layers,
+		target: 'map',
+		view: view
+	});
+	view.fit([{3}], map.getSize());
+</script>
+</body>
+</html>
