@@ -8,7 +8,7 @@
 
 	<portlet>
 		<portlet-name>liferay-grid-portlet</portlet-name>
-		<display-name>Liferay Spring MVC Upload-Portlet</display-name>
+		<display-name>Liferay Spring MVC Grid-Portlet</display-name>
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
 		<init-param>
 			<name>contextConfigLocation</name>
@@ -24,8 +24,8 @@
 			<portlet-mode>view</portlet-mode>
 		</supports>
 		<portlet-info>
-			<title>Liferay Spring MVC grid-portlet</title>
-			<short-title>Liferay Spring MVC grid-portlet</short-title>
+			<title>Таблица</title>
+			<short-title>Таблица</short-title>
 			<keywords>liferay spring mvc grid-portlet</keywords>
 		</portlet-info>
 		<security-role-ref>
