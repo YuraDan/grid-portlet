@@ -12,6 +12,8 @@ import ru.gradis.sovzond.model.dao.XmlAnalysisDAO;
 import ru.gradis.sovzond.model.dao.impl.GridConfigDAOImpl;
 import ru.gradis.sovzond.model.dao.impl.GridDataDAOImpl;
 import ru.gradis.sovzond.model.dao.impl.XmlAnalysisDAOImpl;
+import ru.gradis.sovzond.model.entity.PortletParam;
+import ru.gradis.sovzond.portlet.controller.HomeController;
 
 import javax.sql.DataSource;
 
@@ -40,6 +42,11 @@ public class RootContext extends WebMvcConfigurerAdapter {
 //	public ReferenceDAO getReferenceDAO() {
 //		return new ReferenceDAOImpl(getDataSource());
 //	}
+
+	@Bean
+	public PortletParam getPortletParam() {
+		return new PortletParam();
+	}
 
 	@Bean
 	public XmlAnalysisDAO getXmlAnalysisDAO() {
