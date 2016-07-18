@@ -1,5 +1,6 @@
 (function () {
-		var colors = [
+		var hostPath = window.location.protocol + '//' + window.location.host + '/',
+			colors = [
 				'#7cf778',
 				'#f80000',
 				'#4fd7e4',
@@ -22,7 +23,7 @@
 		angular.module('dataView', [])
 			.factory('gridConfig', ['$http', function ($http) {
 				return function (componentId, successCallback, failCallback) {
-					$http.get('delegate/services/gridConfig/', {params: {componentId: componentId}}).then(successCallback, failCallback || angular.noop);
+					$http.get(hostPath + 'delegate/services/gridConfig/', {params: {componentId: componentId}}).then(successCallback, failCallback || angular.noop);
 				}
 			}])
 			.factory('gridData', ['$http', function ($http) {
@@ -32,7 +33,7 @@
 			}])
 			.component('grDataView', {
 				transclude: false,
-				templateUrl: 'liferay-grid-portlet/html/dataView.html',
+				templateUrl: hostPath + 'liferay-grid-portlet/html/dataView.html',
 				controller: ['$scope', '$element', 'gridConfig', 'gridData', function ($scope, element, gridConfig, gridData) {
 					var table,
 						selectedRowIndex = -1,
@@ -122,7 +123,7 @@
 						function (response) {
 							var gridOptions = response.data.dxDataGrid,
 								dataSetName = response.data.dataSource.name,
-								dataUrl = 'delegate/services/gridData';
+								dataUrl = hostPath + 'delegate/services/gridData';
 							table.option(gridOptions);
 							table.repaint();
 
