@@ -27,12 +27,12 @@ public class GridDataController {
 	public
 	@ResponseBody
 	ResponseEntity<String> getGridConfig(@RequestParam("dataSetName") String dataSetName,
-	                                     @RequestParam("userID") Integer userID,
+	                                     @RequestParam("userId") Integer userId,
 	                                     @RequestParam(value = "param", required = false) String param) {
 		String json = "";
 
-		if (dataSetName != null && userID != null) {
-			json = (String) gridDataDAO.getGridData(dataSetName, userID);
+		if (dataSetName != null && userId != null) {
+			json = (String) gridDataDAO.getGridData(dataSetName, userId);
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		}
 
