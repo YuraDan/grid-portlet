@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import ru.gradis.sovzond.model.dao.GridConfigDAO;
 import ru.gradis.sovzond.model.domain.FileVO;
 import ru.gradis.sovzond.model.entity.PortletParam;
+import ru.gradis.sovzond.portlet.controller.HomeController;
 
 import javax.sql.DataSource;
 import java.sql.Types;
@@ -23,7 +24,8 @@ public class GridConfigDAOImpl implements GridConfigDAO {
 
 	@SuppressWarnings("SpringJavaAutowiringInspection")
 	@Autowired
-	private PortletParam portletParam;
+	public PortletParam portletParam;
+
 
 	private static final Log log = LogFactoryUtil.getLog(GridConfigDAOImpl.class);
 
@@ -41,7 +43,6 @@ public class GridConfigDAOImpl implements GridConfigDAO {
 
 	@Override
 	public String getGridConfig(Integer componentID) {
-		System.out.println("ID FROM DAO = " + portletParam.getPORTLET_ID());
 		Map<String, Object> inParamMap = new HashMap<String, Object>();
 		inParamMap.put("i_layout_id", portletParam.getLAYOUT_ID());
 		inParamMap.put("i_portlet_id", portletParam.getPORTLET_ID());

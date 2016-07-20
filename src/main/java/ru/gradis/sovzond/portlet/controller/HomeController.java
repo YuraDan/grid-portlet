@@ -30,7 +30,7 @@ public class HomeController {
 
 	@SuppressWarnings("SpringJavaAutowiringInspection")
 	@Autowired
-	private PortletParam portletParam;
+	public PortletParam portletParam;
 
 	private static final Log log = LogFactoryUtil.getLog(HomeController.class);
 
