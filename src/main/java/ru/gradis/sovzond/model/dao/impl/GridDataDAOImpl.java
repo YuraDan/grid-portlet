@@ -20,11 +20,6 @@ import java.util.Map;
 
 public class GridDataDAOImpl implements GridDataDAO {
 
-	@SuppressWarnings("SpringJavaAutowiringInspection")
-	@Autowired
-	private PortletParam portletParam;
-
-
 	private static final Log log = LogFactoryUtil.getLog(GridDataDAOImpl.class);
 
 	private SimpleJdbcCall simpleJdbcCall;
