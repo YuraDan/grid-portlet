@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import ru.gradis.sovzond.model.dao.GridDataDAO;
 import ru.gradis.sovzond.model.entity.PortletParam;
-import ru.gradis.sovzond.portlet.controller.HomeController;
 
 import javax.sql.DataSource;
 import java.sql.Types;
@@ -42,13 +41,13 @@ public class GridDataDAOImpl implements GridDataDAO {
 	}
 
 	@Override
-	public String getGridData(String datasetName) {
+	public String getGridData(String dataSetName, Integer userId) {
 
 		Map<String, Object> inParamMap = new HashMap<String, Object>();
-		inParamMap.put("i_dataset_name", datasetName);
+		inParamMap.put("i_dataset_name", dataSetName);
 		inParamMap.put("i_dataset_id", null);
 		inParamMap.put("i_params", null);
-		inParamMap.put("i_user_id", portletParam.getCURRENT_PORTAL_USER_ID());
+		inParamMap.put("i_user_id", userId);
 		MapSqlParameterSource in = new MapSqlParameterSource().addValues(inParamMap);
 		Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute(in);
 		log.info(simpleJdbcCallResult);

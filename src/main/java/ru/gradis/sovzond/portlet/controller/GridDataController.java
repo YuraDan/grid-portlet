@@ -26,15 +26,17 @@ public class GridDataController {
 	@ResponseStatus(HttpStatus.OK)
 	public
 	@ResponseBody
-	ResponseEntity<String> getGridConfig(@RequestParam("dataSetName") String datasetName) {
+	ResponseEntity<String> getGridConfig(@RequestParam("dataSetName") String dataSetName,
+	                                     @RequestParam("userID") Integer userID,
+	                                     @RequestParam(value = "param", required = false) String param) {
 		String json = "";
 
-		if (datasetName != null) {
-			json = (String) gridDataDAO.getGridData(datasetName);
+		if (dataSetName != null && userID != null) {
+			json = (String) gridDataDAO.getGridData(dataSetName, userID);
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		}
 
-		return new ResponseEntity<String>("Требуется передать название набора данных", HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>("Требуется передать userId и название набора данных", HttpStatus.BAD_REQUEST);
 
 	}
 

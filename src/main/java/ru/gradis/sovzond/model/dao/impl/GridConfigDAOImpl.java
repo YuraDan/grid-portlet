@@ -22,11 +22,6 @@ import java.util.Map;
 
 public class GridConfigDAOImpl implements GridConfigDAO {
 
-	@SuppressWarnings("SpringJavaAutowiringInspection")
-	@Autowired
-	public PortletParam portletParam;
-
-
 	private static final Log log = LogFactoryUtil.getLog(GridConfigDAOImpl.class);
 
 	private SimpleJdbcCall simpleJdbcCall;
@@ -35,18 +30,18 @@ public class GridConfigDAOImpl implements GridConfigDAO {
 		this.simpleJdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("config").
 				withProcedureName("pr_get_json_portlet").
 				declareParameters(
-						new SqlParameter("i_layout_id", Types.CLOB),
+						new SqlParameter("i_layout_id", Types.BIGINT),
 						new SqlParameter("i_portlet_id", Types.CLOB),
 						new SqlParameter("i_user_id", Types.BIGINT)
 				);
 	}
 
 	@Override
-	public String getGridConfig(Integer componentID) {
+	public String getGridConfig(String portletId, Integer userId, Integer plId) {
 		Map<String, Object> inParamMap = new HashMap<String, Object>();
-		inParamMap.put("i_layout_id", portletParam.getLAYOUT_ID());
-		inParamMap.put("i_portlet_id", portletParam.getPORTLET_ID());
-		inParamMap.put("i_user_id", portletParam.getCURRENT_PORTAL_USER_ID());
+		inParamMap.put("i_layout_id", plId);
+		inParamMap.put("i_portlet_id", portletId);
+		inParamMap.put("i_user_id", userId);
 		MapSqlParameterSource in = new MapSqlParameterSource().addValues(inParamMap);
 		Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute(in);
 		log.info(simpleJdbcCallResult);

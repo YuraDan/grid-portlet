@@ -44,11 +44,6 @@ public class RootContext extends WebMvcConfigurerAdapter {
 //	}
 
 	@Bean
-	public PortletParam getPortletParam() {
-		return new PortletParam();
-	}
-
-	@Bean
 	public XmlAnalysisDAO getXmlAnalysisDAO() {
 		return new XmlAnalysisDAOImpl(getDataSource());
 	}

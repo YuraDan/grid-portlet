@@ -28,9 +28,6 @@ import javax.portlet.RenderRequest;
 @Controller
 public class HomeController {
 
-	@SuppressWarnings("SpringJavaAutowiringInspection")
-	@Autowired
-	public PortletParam portletParam;
 
 	private static final Log log = LogFactoryUtil.getLog(HomeController.class);
 
@@ -38,18 +35,9 @@ public class HomeController {
 	public ModelAndView home(Locale locale, ModelAndView model, RenderRequest request, @ModelAttribute FileVO fileVO) throws IOException {
 
 //		this.portletParam = new PortletParam();
-
-		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
-		System.out.println(themeDisplay.getPlid());
-		System.out.println(portletDisplay.getId());
-		fileVO.setMessage(portletDisplay.getId());
-		portletParam.setLAYOUT_ID(String.valueOf(themeDisplay.getPlid()));
-		portletParam.setPORTLET_ID(portletDisplay.getId());
-		User user = themeDisplay.getUser();
-		portletParam.setCURRENT_PORTAL_USER_ID(user.getUserId());
-		System.out.println("ID FROM HOME = " + portletParam.getPORTLET_ID());
-		System.out.println("ID FROM VO = " + fileVO.getMessage());
+//		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+//		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
+//		User user = themeDisplay.getUser();
 		log.info("Welcome home from portlet MVC! the client locale is " + locale.toString());
 		model.setViewName("home");
 		return model;

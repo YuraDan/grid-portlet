@@ -27,15 +27,18 @@ public class GridConfigController {
 	@ResponseStatus(HttpStatus.OK)
 	public
 	@ResponseBody
-	ResponseEntity<String> getGridConfig(@RequestParam("componentId") Integer componentId) {
+	ResponseEntity<String> getGridConfig(@RequestParam("portletID") String portletId,
+	                                     @RequestParam("userId") Integer userId,
+	                                     @RequestParam("plId") Integer plId
+	) {
 		String json = "";
 
-		if (componentId != null) {
-			json = (String) gridConfigDAO.getGridConfig(componentId);
+		if (portletId == null || userId == null || plId == null) {
+			return new ResponseEntity<String>("Заданы не все параметры!", HttpStatus.BAD_REQUEST);
+		} else {
+			json = (String) gridConfigDAO.getGridConfig(portletId, userId, plId);
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		}
-
-		return new ResponseEntity<String>("Требуется передать идентификатор компонента", HttpStatus.BAD_REQUEST);
 
 	}
 

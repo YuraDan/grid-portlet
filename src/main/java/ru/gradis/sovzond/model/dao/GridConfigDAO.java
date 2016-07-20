@@ -7,6 +7,6 @@ package ru.gradis.sovzond.model.dao;
 
 public interface GridConfigDAO {
 
-	public String getGridConfig(Integer componentID);
+	public String getGridConfig(String portletID, Integer userId, Integer plId);
 
 }
