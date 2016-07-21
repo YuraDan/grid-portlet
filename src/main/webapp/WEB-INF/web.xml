@@ -32,7 +32,7 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>services</servlet-name>
+		<servlet-name>GridServices</servlet-name>
 		<servlet-class>
 			com.liferay.portal.kernel.servlet.PortalDelegateServlet
 		</servlet-class>
@@ -50,8 +50,8 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>services</servlet-name>
-		<url-pattern>/services/*</url-pattern>
+		<servlet-name>GridServices</servlet-name>
+		<url-pattern>/gridServices/*</url-pattern>
 	</servlet-mapping>
 
 

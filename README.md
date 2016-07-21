@@ -1,4 +1,4 @@
-Liferay Spring Portlet MVC - Analysis XML file
+Liferay Spring Portlet MVC - Grid
 ==========================
 
 A Liferay  Portlet  project template using Maven.

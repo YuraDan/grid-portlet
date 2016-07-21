@@ -23,11 +23,11 @@ public class GridConfigController {
 
 	private static final Log log = LogFactoryUtil.getLog(GridConfigController.class);
 
-	@RequestMapping(value = "/services/gridConfig", method = RequestMethod.GET)
+	@RequestMapping(value = "/gridServices/gridConfig", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public
 	@ResponseBody
-	ResponseEntity<String> getGridConfig(@RequestParam("portletID") String portletId,
+	ResponseEntity<String> getGridConfig(@RequestParam("portletId") String portletId,
 	                                     @RequestParam("userId") Integer userId,
 	                                     @RequestParam("plId") Integer plId
 	) {
