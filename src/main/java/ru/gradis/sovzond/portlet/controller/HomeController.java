@@ -18,7 +18,6 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.springframework.web.servlet.ModelAndView;
 import ru.gradis.sovzond.model.domain.FileVO;
-import ru.gradis.sovzond.model.entity.PortletParam;
 
 import javax.portlet.RenderRequest;
 

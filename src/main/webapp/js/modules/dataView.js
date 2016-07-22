@@ -23,7 +23,7 @@
 	angular.module('dataView', [])
 		.factory('gridConfig', ['$http', function ($http) {
 			return function (portletId, userId, plId, successCallback, failCallback) {
-				$http.get(hostPath + 'delegate/services/gridConfig/', { params: { portletId: portletId, userId: userId, plId: plId } }).then(successCallback, failCallback || angular.noop);
+				$http.get(hostPath + 'delegate/GridServices/gridConfig/', { params: { portletId: portletId, userId: userId, plId: plId } }).then(successCallback, failCallback || angular.noop);
 			}
 		}])
 		.factory('gridData', ['$http', function ($http) {
@@ -129,7 +129,7 @@
 					function (response) {
 						var gridOptions = response.data.dxDataGrid,
 							dataSetName = response.data.dataSource.name,
-							dataUrl = hostPath + 'delegate/services/gridData',
+							dataUrl = hostPath + 'delegate/GridServices/gridData',
 							param = "{}";
 						table.option(gridOptions);
 						table.repaint();

@@ -27,7 +27,7 @@ public class UploadController {
 
 	private static final Log log = LogFactoryUtil.getLog(UploadController.class);
 
-	@RequestMapping(value = "/gridServices/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/GridServices/upload", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.OK)
 	public
 	@ResponseBody

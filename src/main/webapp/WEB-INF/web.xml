@@ -44,14 +44,14 @@
 		</init-param>
 		<init-param>
 			<param-name>sub-context</param-name>
-			<param-value>services</param-value>
+			<param-value>GridServices</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>GridServices</servlet-name>
-		<url-pattern>/gridServices/*</url-pattern>
+		<url-pattern>/GridServices/*</url-pattern>
 	</servlet-mapping>
 
 
