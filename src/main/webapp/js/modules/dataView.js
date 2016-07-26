@@ -23,12 +23,24 @@
 	angular.module('dataView', [])
 		.factory('gridConfig', ['$http', function ($http) {
 			return function (portletId, userId, plId, successCallback, failCallback) {
-				$http.get(hostPath + 'delegate/GridServices/gridConfig/', { params: { portletId: portletId, userId: userId, plId: plId } }).then(successCallback, failCallback || angular.noop);
+				$http.get(hostPath + 'delegate/GridServices/gridConfig/', {
+					params: {
+						portletId: portletId,
+						userId: userId,
+						plId: plId
+					}
+				}).then(successCallback, failCallback || angular.noop);
 			}
 		}])
 		.factory('gridData', ['$http', function ($http) {
 			return function (url, dataSetName, userId, param, successCallback, failCallback) {
-				$http.get(url, { params: { dataSetName: dataSetName, userId: userId, param: param } }).then(successCallback, failCallback || angular.noop);
+				$http.get(url, {
+					params: {
+						dataSetName: dataSetName,
+						userId: userId,
+						param: param
+					}
+				}).then(successCallback, failCallback || angular.noop);
 			}
 		}])
 		.component('grDataView', {
@@ -42,7 +54,7 @@
 
 				//--- Контекст ---
 				extend($scope, {
-					settings: { table: {} },
+					settings: {table: {}},
 					data: []
 				});
 
@@ -60,7 +72,14 @@
 							currentRow.addClass('current-row');
 
 							//--- Запоминаем для двойного клика выбранную строку ---
-							selectedRowIndex = e.rowIndex;
+
+							Liferay.fire(
+								'clickIvent', {
+									receiverPortletId: 'liferaygridportlet_WAR_liferaygridportlet_INSTANCE_5Isg99zyFBue',
+									ivent: 'click',
+									data: JSON.stringify(e.data)
+								}
+							);
 						}
 						else {
 							//--- Запоминаем для двойного клика выбранную строку ---
@@ -122,37 +141,56 @@
 					userId = parseInt(Liferay.ThemeDisplay.getUserId()),
 					plId = parseInt(Liferay.ThemeDisplay.getPlid());
 
-				gridConfig(
-					portletId,
-					userId,
-					plId,
-					function (response) {
-						var gridOptions = response.data.dxDataGrid,
-							dataSetName = response.data.dataSource.name,
-							dataUrl = hostPath + 'delegate/GridServices/gridData',
-							param = "{}";
-						table.option(gridOptions);
-						table.repaint();
+				var refreshGridConfig = function (param) {
+					//--- Запрос настроек таблицы ---
+					var portletId = element.parents('section.portlet').attr('id'),
+						userId = parseInt(Liferay.ThemeDisplay.getUserId()),
+						plId = parseInt(Liferay.ThemeDisplay.getPlid());
 
-						//--- Запрос данных таблицы ---
-						gridData(
-							dataUrl,
-							dataSetName,
-							userId,
-							param,
-							function (response) {
-								table.option('dataSource', response.data);
-								table.refresh();
-							},
-							function (response) {
-								console.error('Ошибка при получении данных');
-							}
-						);
-					},
-					function (response) {
-						console.error('Ошибка при получении настроек таблицы');
+					gridConfig(
+						portletId,
+						userId,
+						plId,
+						function (response) {
+							var gridOptions = response.data.dxDataGrid,
+								dataSetName = response.data.dataSource.name,
+								dataUrl = hostPath + 'delegate/GridServices/gridData';
+							table.option(gridOptions);
+							table.repaint();
+
+							//--- Запрос данных таблицы ---
+							gridData(
+								dataUrl,
+								dataSetName,
+								userId,
+								param,
+								function (response) {
+									table.option('dataSource', response.data);
+									table.refresh();
+								},
+								function (response) {
+									console.error('Ошибка при получении данных');
+								}
+							);
+						},
+						function (response) {
+							console.error('Ошибка при получении настроек таблицы');
+						}
+					);
+				};
+
+				//Initial config
+				refreshGridConfig('{}');
+
+				Liferay.on('clickIvent', function (event) {
+					// var portletId = element.parents('section.portlet').attr('id')
+					// alert(event.receiverPortletId + '   ' + new String(portletId).valueOf());
+					if ("portlet_" + event.receiverPortletId == new String(portletId).valueOf()) {
+						// alert(event.data);
+						refreshGridConfig(event.data);
 					}
-				);				
+
+				});
 			}]
 		});
 })();
