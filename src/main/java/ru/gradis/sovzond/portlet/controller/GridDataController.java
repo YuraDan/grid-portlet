@@ -32,7 +32,7 @@ public class GridDataController {
 		String json = "";
 
 		if (dataSetName != null && userId != null) {
-			json = (String) gridDataDAO.getGridData(dataSetName, userId);
+			json = (String) gridDataDAO.getGridData(dataSetName, userId, param);
 			return new ResponseEntity<String>(json, HttpStatus.OK);
 		}
 

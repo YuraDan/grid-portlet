@@ -31,17 +31,17 @@ public class GridDataDAOImpl implements GridDataDAO {
 						new SqlParameter("i_dataset_name", Types.CLOB),
 						new SqlParameter("i_dataset_id", Types.BIGINT),
 						new SqlParameter("i_user_id", Types.BIGINT),
-						new SqlParameter("i_params", Types.NULL)
+						new SqlParameter("i_params", Types.CLOB)
 				);
 	}
 
 	@Override
-	public String getGridData(String dataSetName, Integer userId) {
+	public String getGridData(String dataSetName, Integer userId, String param) {
 
 		Map<String, Object> inParamMap = new HashMap<String, Object>();
 		inParamMap.put("i_dataset_name", dataSetName);
 		inParamMap.put("i_dataset_id", null);
-		inParamMap.put("i_params", null);
+		inParamMap.put("i_params", param);
 		inParamMap.put("i_user_id", userId);
 		MapSqlParameterSource in = new MapSqlParameterSource().addValues(inParamMap);
 		Map<String, Object> simpleJdbcCallResult = simpleJdbcCall.execute(in);

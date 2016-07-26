@@ -7,6 +7,6 @@ package ru.gradis.sovzond.model.dao;
 
 public interface GridDataDAO {
 
-	public String getGridData(String dataSetName, Integer userId);
+	public String getGridData(String dataSetName, Integer userId, String param);
 
 }

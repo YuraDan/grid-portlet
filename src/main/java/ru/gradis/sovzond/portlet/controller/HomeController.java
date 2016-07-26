@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import org.springframework.web.servlet.ModelAndView;
 import ru.gradis.sovzond.model.domain.FileVO;
 
+import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 
 /**
@@ -37,6 +38,7 @@ public class HomeController {
 //		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 //		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 //		User user = themeDisplay.getUser();
+
 		log.info("Welcome home from portlet MVC! the client locale is " + locale.toString());
 		model.setViewName("home");
 		return model;

@@ -8,10 +8,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import ru.gradis.sovzond.model.dao.GridConfigDAO;
 import ru.gradis.sovzond.model.dao.GridDataDAO;
-import ru.gradis.sovzond.model.dao.XmlAnalysisDAO;
 import ru.gradis.sovzond.model.dao.impl.GridConfigDAOImpl;
 import ru.gradis.sovzond.model.dao.impl.GridDataDAOImpl;
-import ru.gradis.sovzond.model.dao.impl.XmlAnalysisDAOImpl;
 
 import javax.sql.DataSource;
 
@@ -34,16 +32,6 @@ public class RootContext extends WebMvcConfigurerAdapter {
 		dataSource.setPassword("9PmAPWXHefUn");
 
 		return dataSource;
-	}
-
-//	@Bean
-//	public ReferenceDAO getReferenceDAO() {
-//		return new ReferenceDAOImpl(getDataSource());
-//	}
-
-	@Bean
-	public XmlAnalysisDAO getXmlAnalysisDAO() {
-		return new XmlAnalysisDAOImpl(getDataSource());
 	}
 
 	@Bean

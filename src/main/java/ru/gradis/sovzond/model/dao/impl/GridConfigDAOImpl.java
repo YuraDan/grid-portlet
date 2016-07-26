@@ -2,14 +2,11 @@ package ru.gradis.sovzond.model.dao.impl;
 
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import ru.gradis.sovzond.model.dao.GridConfigDAO;
-import ru.gradis.sovzond.model.domain.FileVO;
-import ru.gradis.sovzond.model.entity.PortletParam;
-import ru.gradis.sovzond.portlet.controller.HomeController;
+
 
 import javax.sql.DataSource;
 import java.sql.Types;
