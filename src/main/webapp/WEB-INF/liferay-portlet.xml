@@ -4,8 +4,7 @@
 		<requires-namespaced-parameters>false</requires-namespaced-parameters>
 		<portlet-name>liferay-grid-portlet</portlet-name>
 		<icon>/icon.png</icon>
-		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction
-		</configuration-action-class>
+		<configuration-action-class>ru.gradis.sovzond.portlet.action.ConfigurationAction</configuration-action-class>
 		<instanceable>true</instanceable>
 	</portlet>
 	<role-mapper>

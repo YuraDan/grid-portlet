@@ -4,7 +4,10 @@ package ru.gradis.sovzond.portlet.controller;
 import java.io.IOException;
 import java.util.Locale;
 
+import com.liferay.portal.kernel.cache.CacheRegistryUtil;
+import com.liferay.portal.kernel.dao.orm.EntityCacheUtil;
 import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.PortletPreferences;
 import com.liferay.portal.model.User;
 import com.liferay.portal.theme.PortletDisplay;
 import com.liferay.portal.theme.ThemeDisplay;
@@ -33,11 +36,13 @@ public class HomeController {
 
 	@RequestMapping("VIEW")
 	public ModelAndView home(Locale locale, ModelAndView model, RenderRequest request, @ModelAttribute FileVO fileVO) throws IOException {
-
+		CacheRegistryUtil.clear();
+//		EntityCacheUtil.clearCache();
 //		this.portletParam = new PortletParam();
 //		ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
 //		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 //		User user = themeDisplay.getUser();
+//
 
 		log.info("Welcome home from portlet MVC! the client locale is " + locale.toString());
 		model.setViewName("home");
