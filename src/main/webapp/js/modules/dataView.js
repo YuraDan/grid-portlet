@@ -48,8 +48,6 @@
 							gridOptions = response.data.components.dxDataGrid.options,
 							param = "{}",
 							eventActions = response.data.eventAction;
-						$scope.dataSetName = response.data.components.dxDataGrid.dataSource.name;
-						$scope.dataSetUrl = response.data.components.dxDataGrid.dataSource.url;
 						$scope.dataUrl = commonTools.getHostPath() + 'delegate/GridServices/gridData'; //TODO: переделать на data source от сервера
 						grid.option(gridOptions);
 						grid.repaint();
@@ -63,7 +61,7 @@
 						addLiferayActions();
 
 						//--- Запрос данных таблицы ---
-						gridData($scope.dataUrl, $scope.dataSetName, userId, param, gridDataSuccess, gridDataError);
+						gridData($scope.dataUrl, grid.option('dataSetName'), userId, param, gridDataSuccess, gridDataError);
 					};
 
 					function gridConfigError(response) {
@@ -71,32 +69,7 @@
 					};
 
 					function gridDataSuccess(response) {
-						var dataSource = response.data;
-
-						grid.option('dataSource', dataSource);
-
-						var testObj = {
-							code: "003008000000",
-							comments: "Земли без категории",
-							createdate: "2016-05-23T12:34:22.152193",
-							creator: "postgres",
-							guid: "9FA529E9-A699-4168-9FF4-692FC9560DE9",
-							id: 3,
-							modifier: "postgres",
-							modifydate: "2016-07-14T12:38:23.726649",
-							name: "Категория не установлена",
-							numversion: "1.0",
-							pos: 8,
-							r_count: null,
-							short: "ЗБК222",
-							state_id: 1,
-							state_name: "Новый",
-						}
-
-						dataSource.push(testObj);
-						testObj.short = "ЗБК222333";
-						
-						//grid.refresh();
+						grid.option('dataSource', response.data);
 					};
 
 					function gridDataError(response) {
@@ -106,9 +79,11 @@
 					function addLiferayActions() {
 						grid.liferayActions = {}
 						grid.liferayActions.refreshData = function (params) {
-							gridData($scope.dataUrl, $scope.dataSetName, userId, JSON.stringify(params), gridDataSuccess, gridDataError);
+							gridData($scope.dataUrl, grid.option('dataSetName'), userId, JSON.stringify(params), gridDataSuccess, gridDataError);
 						}
 					};
+
+
 				}]
 		});
 })();
