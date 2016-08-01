@@ -11,30 +11,17 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 	<link href="<%=request.getContextPath()%>/css/prototype.css" rel="stylesheet"/>
+	<link href="<%=request.getContextPath()%>/css/main.css" rel="stylesheet"/>
+
+	<!-- Services -->
+	<script src="<%=request.getContextPath()%>/js/services/gridService.js"></script>
 
 	<!-- Modules -->
 	<script src="<%=request.getContextPath()%>/js/modules/dataView.js"></script>
 
 	<!-- Main app file -->
 	<script src="<%=request.getContextPath()%>/js/app.js"></script>
-
-	<style>
-		.detailInfo {
-			text-align: center;
-			overflow: hidden;
-			background-color: white;
-		}
-
-		.wrapper {
-			position: relative;
-			min-height: 100%;
-			margin: 0 auto;
-			max-width: 4000px;
-			background-color: #f4f7f4;
-		}
-	</style>
 </head>
-
 <body class="prototype">
 <div class="wrapper">
 	<div id="detailInfo" class="detailInfo">
