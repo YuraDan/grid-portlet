@@ -1,0 +1,13 @@
+.detailInfo {
+    text-align: center;
+    overflow: hidden;
+    background-color: white;
+}
+
+.wrapper {
+    position: relative;
+    min-height: 100%;
+    margin: 0 auto;
+    max-width: 4000px;
+    background-color: #f4f7f4;
+}
