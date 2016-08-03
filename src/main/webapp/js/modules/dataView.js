@@ -23,7 +23,8 @@
 					var grid = null,
 						portletId = commonTools.getPortletId(element),
 						userId = parseInt(Liferay.ThemeDisplay.getUserId()),
-						plId = parseInt(Liferay.ThemeDisplay.getPlid());
+						plId = parseInt(Liferay.ThemeDisplay.getPlid()),
+						dataSources = [];
 
 					//--- Контекст ---
 					angular.extend($scope, {
@@ -52,16 +53,20 @@
 						grid.option(gridOptions);
 						grid.repaint();
 
+						//--- Установка идентификатора элемента с гридом ---
 						$(grid.element()).attr('id', portletId + '_' + gridComponentName);
+
+						//--- Получение компонентов с dataSource ---
+						dataSources = response.data.dataSource;
 
 						//--- Настройка событийной модели ---
 						eventModelTools.createEventActions(eventActions);
 
 						//--- Добавление функций обработки ---
-						addLiferayActions();
+						addActions();
 
 						//--- Запрос данных таблицы ---
-						gridData($scope.dataUrl, grid.option('dataSetName'), userId, param, gridDataSuccess, gridDataError);
+						grid.actions.refreshData({});
 					};
 
 					function gridConfigError(response) {
@@ -76,14 +81,29 @@
 						console.error('Ошибка при получении данных');
 					};
 
-					function addLiferayActions() {
-						grid.liferayActions = {}
-						grid.liferayActions.refreshData = function (params) {
-							gridData($scope.dataUrl, grid.option('dataSetName'), userId, JSON.stringify(params), gridDataSuccess, gridDataError);
+					function addActions() {
+						grid.actions = {}
+						grid.actions.refreshData = function (params) {
+							formDataRequests(params);
 						}
 					};
 
+					//--- Формирование запросов данных для вложенных компонент ---
+					function formDataRequests(params) {
+						for (var i = 0; i < dataSources.length; ++i)(function (dataSource) {
+							dataRequest(dataSource, params);
+						})(dataSources[i]);
+					};
 
+					//--- Отправка запроса данных для вложенного компонента ---
+					function dataRequest(dataSource, params) {
+						gridData($scope.dataUrl
+							, dataSource.dataSource
+							, userId
+							, JSON.stringify(params)
+							, gridDataSuccess
+							, gridDataError);
+					};
 				}]
 		});
 })();
