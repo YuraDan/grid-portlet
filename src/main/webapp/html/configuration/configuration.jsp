@@ -20,31 +20,41 @@
 <liferay-portlet:actionURL portletConfiguration="true" var="configurationURL"/>
 <portlet:defineObjects/>
 
-<%
-	String gridIdKey_cfg = GetterUtil.getString(portletPreferences.getValue("gridIdKey", StringPool.NULL));
-	String componentJson = GetterUtil.getString(portletPreferences.getValue("components", StringPool.NULL));
-%>
-
 <html>
 <head>
-	<title>Grid_Configuration</title>
+	<title>Настройки</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+	<link href="<%=request.getContextPath()%>/css/prototype.css" rel="stylesheet"/>
+	<link href="<%=request.getContextPath()%>/css/main.css" rel="stylesheet"/>
+
+	<!-- Services -->
+
+	<!-- Modules -->
+	<script src="<%=request.getContextPath()%>/js/modules/configurationEditor.js"></script>
+
+	<!-- Main app file -->
+	<script src="<%=request.getContextPath()%>/js/configuration.js"></script>
 </head>
 <body>
+	<!-- Редактор конфигурации -->
+    <gr-configuration-editor></gr-configuration-editor>
 
-<h1> value = <%=componentJson%>
-</h1>
-<aui:form action="<%= configurationURL %>" method="post" name="fm">
-	<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>"/>
+	<aui:form action="<%= configurationURL %>" method="post" name="fm">
+		<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>"/>
 
-	<aui:input name="preferences--gridIdKey--" type="text" value="<%= gridIdKey_cfg %>"/>
+		<!-- Preference control goes here -->
 
-	<!-- Preference control goes here -->
+		<aui:button-row>
+			<aui:button type="submit"/>
+		</aui:button-row>
+	</aui:form>
 
-	<aui:button-row>
-		<aui:button type="submit"/>
-	</aui:button-row>
-</aui:form>
-
-
+	<script>
+		$(document).ready(function () {
+			angular.bootstrap(document.body, ['configuration']);
+		});
+	</script>
 </body>
 </html>
