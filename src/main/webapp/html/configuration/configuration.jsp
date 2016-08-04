@@ -7,6 +7,13 @@
 <%@ page import="com.liferay.portal.kernel.cache.CacheRegistryUtil" %>
 <%@ page import="com.liferay.portal.kernel.dao.orm.EntityCacheUtil" %>
 
+<%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
+<%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
+    <% ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
+	String portletId = themeDisplay.getPortletDisplay().getId();
+	String themePath = "sss";
+%>
+
 <%--
   Created by IntelliJ IDEA.
   User: donchenko-y
@@ -38,10 +45,12 @@
 	<script src="<%=request.getContextPath()%>/js/configuration.js"></script>
 </head>
 <body>
+
 	<!-- Редактор конфигурации -->
     <gr-configuration-editor></gr-configuration-editor>
 
 	<aui:form action="<%= configurationURL %>" method="post" name="fm">
+    afsdfsdf=<%=portletId%>****
 		<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>"/>
 
 		<!-- Preference control goes here -->
