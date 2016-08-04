@@ -1,30 +1,27 @@
 (function () {
 	var hostPath = window.location.protocol + '//' + window.location.host + '/';
 
-	angular.module('dataView', ['gridService', 'commonTools', 'eventModelTools'])
+	angular.module('dataView', ['servicePortlet', 'commonTools', 'eventModelTools'])
 		.component('grDataView', {
 			transclude: false,
 			templateUrl: hostPath + 'liferay-grid-portlet/html/dataView.html',
 			controller: ['$scope'
 				, '$element'
-				, 'gridConfig'
-				, 'gridEvents'
-				, 'gridData'
+				, 'getConfig'
+				, 'getData'
 				, 'commonTools'
 				, 'eventModelTools'
 				, function ($scope
 					, element
-					, gridConfig
-					, gridEvents
-					, gridData
+					, getConfig
+					, getData
 					, commonTools
 					, eventModelTools) {
 
 					var grid = null,
 						portletId = commonTools.getPortletId(element),
 						userId = parseInt(Liferay.ThemeDisplay.getUserId()),
-						plId = parseInt(Liferay.ThemeDisplay.getPlid()),
-						dataSources = [];
+						plId = parseInt(Liferay.ThemeDisplay.getPlid());
 
 					//--- Контекст ---
 					angular.extend($scope, {
@@ -42,28 +39,23 @@
 					});
 
 					//--- Запрос настроек таблицы ---
-					gridConfig(portletId, userId, plId, gridConfigSuccess, gridConfigError);
+					getConfig(portletId, userId, plId, gridConfigSuccess, gridConfigError);
 
-					function gridConfigSuccess(response) {
-						var gridComponentName = response.data.components.dxDataGrid.component,
-							gridOptions = response.data.components.dxDataGrid.options,
-							param = "{}",
-							eventActions = response.data.eventAction;
-						$scope.dataUrl = commonTools.getHostPath() + 'delegate/GridServices/gridData'; //TODO: переделать на data source от сервера
+					function gridConfigSuccess(config) {
+						var gridComponentName = config.components.dxDataGrid.component,
+							gridOptions = config.components.dxDataGrid.options,
+							eventActions = config.eventAction;
 						grid.option(gridOptions);
 						grid.repaint();
 
 						//--- Установка идентификатора элемента с гридом ---
 						$(grid.element()).attr('id', portletId + '_' + gridComponentName);
 
-						//--- Получение компонентов с dataSource ---
-						dataSources = response.data.dataSource;
-
 						//--- Настройка событийной модели ---
 						eventModelTools.createEventActions(eventActions);
 
 						//--- Добавление функций обработки ---
-						addActions();
+						addActions(config.dataSource);
 
 						//--- Запрос данных таблицы ---
 						grid.actions.refreshData({});
@@ -73,36 +65,53 @@
 						console.error('Ошибка при получении настроек таблицы');
 					};
 
-					function gridDataSuccess(response) {
-						grid.option('dataSource', response.data);
+					function gridDataSuccess(data) {
+						grid.option('dataSource', data);
 					};
 
 					function gridDataError(response) {
 						console.error('Ошибка при получении данных');
 					};
 
-					function addActions() {
-						grid.actions = {}
-						grid.actions.refreshData = function (params) {
-							formDataRequests(params);
-						}
-					};
-
-					//--- Формирование запросов данных для вложенных компонент ---
-					function formDataRequests(params) {
-						for (var i = 0; i < dataSources.length; ++i)(function (dataSource) {
-							dataRequest(dataSource, params);
+					//--- Добавление реакций на события Liferay ---
+					function addActions(dataSources) {
+						for (var i = 0; i < dataSources.length; ++i) (function (dataSource) {
+							addActionsForComponent(dataSource);
 						})(dataSources[i]);
 					};
 
-					//--- Отправка запроса данных для вложенного компонента ---
-					function dataRequest(dataSource, params) {
-						gridData($scope.dataUrl
-							, dataSource.dataSource
-							, userId
-							, JSON.stringify(params)
-							, gridDataSuccess
-							, gridDataError);
+					//--- Добавление реакции на события на основе dataSource ---
+					function addActionsForComponent(dataSource) {
+						var dxComponent = null,
+							defaultSuccessFn = function (data) {
+								dxComponent.option('dataSource', data);
+							};
+						if (dataSource.component != dataSource.parentComponent) {
+						}
+						else {
+							dxComponent = grid;
+						}
+
+						var actions = {};
+
+						switch (dataSource.componentType) {
+							case "dxDataGrid":
+								actions.refreshData = getRefreshDataFn(dataSource.dataSource, userId, portletId, plId, gridDataSuccess, gridDataError);
+								break;
+						}
+						dxComponent.actions = actions;
+					};
+
+					//--- Формирование функции обновления данных ---
+					function getRefreshDataFn(dataSourceName, userId, portletId, plId, succesFn, errorFn) {
+						return function (params) {
+							params.i_portletid = portletId;
+							params.i_plid = plId;
+							getData(dataSourceName
+								, userId, JSON.stringify(params)
+								, succesFn
+								, errorFn);
+						};
 					};
 				}]
 		});
