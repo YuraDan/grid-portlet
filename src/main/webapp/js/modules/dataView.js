@@ -93,7 +93,7 @@
 							var actions = {};
 							switch (properties.componentType) {
 								case "dxDataGrid":
-									actions.refreshData = getRefreshDataFn(properties.dataSource, userId, portletId, plId, gridDataSuccess, gridDataError);
+									actions.refreshData = getRefreshDataFn(properties.dataSource, userId, gridDataSuccess, gridDataError);
 									break;
 							}
 							dxComponent.actions = actions;
@@ -101,12 +101,11 @@
 					};
 
 					//--- Формирование функции обновления данных ---
-					function getRefreshDataFn(dataSourceName, userId, portletId, plId, succesFn, errorFn) {
+					function getRefreshDataFn(dataSourceName, userId, succesFn, errorFn) {
 						return function (params) {
-							params.i_portletid = portletId;
-							params.i_plid = plId;
 							servicePortlet.getData(dataSourceName
-								, userId, JSON.stringify(params)
+								, userId
+								, params
 								, succesFn
 								, errorFn);
 						};
