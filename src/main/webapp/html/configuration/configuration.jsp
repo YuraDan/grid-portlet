@@ -25,8 +25,10 @@
 
 <liferay-portlet:actionURL portletConfiguration="true" var="configurationURL"/>
 <portlet:defineObjects/>
+    <!-- Css -->
+    <link href="<%=themePath%>/css/modules/configurationEditor.css" rel="stylesheet"/>
 
-	<!-- Services -->
+    <!-- Services -->
 
 	<!-- Modules -->
 	<script src="<%=themePath%>/js/modules/configurationEditor.js"></script>
