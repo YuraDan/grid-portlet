@@ -10,8 +10,7 @@
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
 <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
     <% ThemeDisplay themeDisplay = (ThemeDisplay) request.getAttribute(WebKeys.THEME_DISPLAY);
-	String portletId = themeDisplay.getPortletDisplay().getId();
-	String themePath = "sss";
+	String themePath = themeDisplay.getPathThemeRoot();
 %>
 
 <%--
@@ -27,30 +26,23 @@
 <liferay-portlet:actionURL portletConfiguration="true" var="configurationURL"/>
 <portlet:defineObjects/>
 
-<html>
-<head>
-	<title>Настройки</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-	<link href="<%=request.getContextPath()%>/css/prototype.css" rel="stylesheet"/>
-	<link href="<%=request.getContextPath()%>/css/main.css" rel="stylesheet"/>
-
 	<!-- Services -->
 
 	<!-- Modules -->
-	<script src="<%=request.getContextPath()%>/js/modules/configurationEditor.js"></script>
+	<script src="<%=themePath%>/js/modules/configurationEditor.js"></script>
 
 	<!-- Main app file -->
-	<script src="<%=request.getContextPath()%>/js/configuration.js"></script>
-</head>
-<body>
+	<script src="<%=themePath%>/js/configuration.js"></script>
 
-	<!-- Редактор конфигурации -->
-    <gr-configuration-editor></gr-configuration-editor>
+    <!-- Редактор конфигурации -->
+    <gr-configuration-editor id="configurationEditor"></gr-configuration-editor>
+    <script>
+        angular.element(document).ready(function () {
+            angular.bootstrap(document.getElementById('configurationEditor'), ['configuration']);
+        });
+    </script>
 
-	<aui:form action="<%= configurationURL %>" method="post" name="fm">
-    afsdfsdf=<%=portletId%>****
+    <aui:form action="<%= configurationURL %>" method="post" name="fm">
 		<aui:input name="<%= Constants.CMD %>" type="hidden" value="<%= Constants.UPDATE %>"/>
 
 		<!-- Preference control goes here -->
@@ -60,10 +52,3 @@
 		</aui:button-row>
 	</aui:form>
 
-	<script>
-		$(document).ready(function () {
-			angular.bootstrap(document.body, ['configuration']);
-		});
-	</script>
-</body>
-</html>
