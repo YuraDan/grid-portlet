@@ -87,7 +87,10 @@
 								dxComponent.option('dataSource', data);
 							};
 
-						dxComponent = commonTools.getDxComponentByPath(portletId, properties.componentPath);
+						dxComponent = commonTools.getDxComponentByPath(portletId, properties.componentPath).component;
+						if (!dxComponent) {
+							return;
+						}
 
 						if (properties.dataSource && dxComponent) {
 							var actions = {};
