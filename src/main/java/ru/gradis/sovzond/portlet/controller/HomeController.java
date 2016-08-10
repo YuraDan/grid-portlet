@@ -43,7 +43,6 @@ public class HomeController {
 //		PortletDisplay portletDisplay = themeDisplay.getPortletDisplay();
 //		User user = themeDisplay.getUser();
 //
-
 		log.info("Welcome home from portlet MVC! the client locale is " + locale.toString());
 		model.setViewName("home");
 		return model;

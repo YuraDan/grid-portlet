@@ -22,13 +22,14 @@ public class GridDataController {
 
 	private static final Log log = LogFactoryUtil.getLog(GridConfigController.class);
 
+
 	@RequestMapping(value = "/GridServices/gridData", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.OK)
 	public
 	@ResponseBody
-	ResponseEntity<String> getGridConfig(@RequestParam("dataSetName") String dataSetName,
-	                                     @RequestParam("userId") Integer userId,
-	                                     @RequestParam(value = "param", required = false) String param) {
+	ResponseEntity<String> getGridData(@RequestParam("dataSetName") String dataSetName,
+	                                   @RequestParam("userId") Integer userId,
+	                                   @RequestParam(value = "param", required = false) String param) {
 		String json = "";
 
 		if (dataSetName != null && userId != null) {
@@ -37,6 +38,40 @@ public class GridDataController {
 		}
 
 		return new ResponseEntity<String>("Требуется передать userId и название набора данных", HttpStatus.BAD_REQUEST);
+
+	}
+
+	@RequestMapping(value = "/GridServices/delete", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public
+	@ResponseBody
+	ResponseEntity<String> deleteFromGrid(@RequestParam("dataSetName") String dataSetName,
+	                                      @RequestParam("userId") Integer userId,
+	                                      @RequestParam(value = "param", required = false) String param) {
+		String json = "";
+
+		if (dataSetName != null && userId != null) {
+			gridDataDAO.deleteGridData(dataSetName, userId, param);
+			return new ResponseEntity<String>("Удалено", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("Требуется передать userId, название набора данных и управляющие параметры!", HttpStatus.BAD_REQUEST);
+	}
+
+	@RequestMapping(value = "/GridServices/updateRow", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public
+	@ResponseBody
+	ResponseEntity<String> updateGridRow(@RequestParam("dataSetName") String dataSetName,
+	                                     @RequestParam("userId") Integer userId,
+	                                     @RequestParam(value = "param", required = false) String param) {
+		String json = "";
+
+		if (dataSetName != null && userId != null) {
+			gridDataDAO.updateGridData(dataSetName, userId, param);
+			return new ResponseEntity<String>("Обновлено", HttpStatus.OK);
+		}
+
+		return new ResponseEntity<String>("Требуется передать userId, название набора данных и управляющие параметры!", HttpStatus.BAD_REQUEST);
 
 	}
 
