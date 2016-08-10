@@ -1,22 +1,18 @@
 (function () {
 	var hostPath = window.location.protocol + '//' + window.location.host + '/';
 
-	angular.module('dataView', ['gridService', 'commonTools', 'eventModelTools'])
+	angular.module('dataView', ['servicePortlet', 'commonTools', 'eventModelTools'])
 		.component('grDataView', {
 			transclude: false,
 			templateUrl: hostPath + 'liferay-grid-portlet/html/dataView.html',
 			controller: ['$scope'
 				, '$element'
-				, 'gridConfig'
-				, 'gridEvents'
-				, 'gridData'
+				, 'servicePortlet'
 				, 'commonTools'
 				, 'eventModelTools'
 				, function ($scope
 					, element
-					, gridConfig
-					, gridEvents
-					, gridData
+					, servicePortlet
 					, commonTools
 					, eventModelTools) {
 
@@ -29,6 +25,9 @@
 					angular.extend($scope, {
 						settings: {
 							grid: {}
+						},
+						gridButtonClick: function (r, c) {
+							alert(r + ' ' + c);
 						}
 					});
 
@@ -41,73 +40,78 @@
 					});
 
 					//--- Запрос настроек таблицы ---
-					gridConfig(portletId, userId, plId, gridConfigSuccess, gridConfigError);
+					servicePortlet.getConfig(portletId, userId, plId, gridConfigSuccess, gridConfigError);
 
-					function gridConfigSuccess(response) {
-						var gridComponentName = response.data.components.dxDataGrid.component,
-							gridOptions = response.data.components.dxDataGrid.options,
-							param = "{}",
-							eventActions = response.data.eventAction;
-						$scope.dataSetName = response.data.components.dxDataGrid.dataSource.name;
-						$scope.dataSetUrl = response.data.components.dxDataGrid.dataSource.url;
-						$scope.dataUrl = commonTools.getHostPath() + 'delegate/GridServices/gridData'; //TODO: переделать на data source от сервера
+					function gridConfigSuccess(config) {
+						var gridComponentName = config.components.dxDataGrid.component,
+							gridOptions = config.components.dxDataGrid.options,
+							eventActions = config.eventAction;
 						grid.option(gridOptions);
 						grid.repaint();
 
+						//--- Установка идентификатора элемента с гридом ---
 						$(grid.element()).attr('id', portletId + '_' + gridComponentName);
 
 						//--- Настройка событийной модели ---
 						eventModelTools.createEventActions(eventActions);
 
-						//--- Добавление функций обработки ---
-						addLiferayActions();
+						//--- Добавление расширенных свойст ---
+						addExtendedProperties(config.extendedProperties);
 
 						//--- Запрос данных таблицы ---
-						gridData($scope.dataUrl, $scope.dataSetName, userId, param, gridDataSuccess, gridDataError);
+						grid.actions.refreshData({});
 					};
 
 					function gridConfigError(response) {
 						console.error('Ошибка при получении настроек таблицы');
 					};
 
-					function gridDataSuccess(response) {
-						var dataSource = response.data;
-
-						grid.option('dataSource', dataSource);
-
-						var testObj = {
-							code: "003008000000",
-							comments: "Земли без категории",
-							createdate: "2016-05-23T12:34:22.152193",
-							creator: "postgres",
-							guid: "9FA529E9-A699-4168-9FF4-692FC9560DE9",
-							id: 3,
-							modifier: "postgres",
-							modifydate: "2016-07-14T12:38:23.726649",
-							name: "Категория не установлена",
-							numversion: "1.0",
-							pos: 8,
-							r_count: null,
-							short: "ЗБК222",
-							state_id: 1,
-							state_name: "Новый",
-						}
-
-						dataSource.push(testObj);
-						testObj.short = "ЗБК222333";
-						
-						//grid.refresh();
+					function gridDataSuccess(data) {
+						grid.option('dataSource', data);
 					};
 
 					function gridDataError(response) {
 						console.error('Ошибка при получении данных');
 					};
 
-					function addLiferayActions() {
-						grid.liferayActions = {}
-						grid.liferayActions.refreshData = function (params) {
-							gridData($scope.dataUrl, $scope.dataSetName, userId, JSON.stringify(params), gridDataSuccess, gridDataError);
+
+					function addExtendedProperties(extendedProperties) {
+						for (var i = 0; i < extendedProperties.length; ++i) (function (props) {
+							addPropertiesForComponent(props);
+						})(extendedProperties[i]);
+					};
+
+					function addPropertiesForComponent(properties) {
+						var dxComponent = null,
+							defaultSuccessFn = function (data) {
+								dxComponent.option('dataSource', data);
+							};
+
+						dxComponent = commonTools.getDxComponentByPath(portletId, properties.componentPath).component;
+						if (!dxComponent) {
+							return;
 						}
+
+						if (properties.dataSource && dxComponent) {
+							var actions = {};
+							switch (properties.componentType) {
+								case "dxDataGrid":
+									actions.refreshData = getRefreshDataFn(properties.dataSource, userId, gridDataSuccess, gridDataError);
+									break;
+							}
+							dxComponent.actions = actions;
+						}
+					};
+
+					//--- Формирование функции обновления данных ---
+					function getRefreshDataFn(dataSourceName, userId, succesFn, errorFn) {
+						return function (params) {
+							servicePortlet.getData(dataSourceName
+								, userId
+								, params
+								, succesFn
+								, errorFn);
+						};
 					};
 				}]
 		});

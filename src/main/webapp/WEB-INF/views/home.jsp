@@ -10,11 +10,8 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-	<link href="<%=request.getContextPath()%>/css/prototype.css" rel="stylesheet"/>
+	<!-- Css -->
 	<link href="<%=request.getContextPath()%>/css/main.css" rel="stylesheet"/>
-
-	<!-- Services -->
-	<script src="<%=request.getContextPath()%>/js/services/gridService.js"></script>
 
 	<!-- Modules -->
 	<script src="<%=request.getContextPath()%>/js/modules/dataView.js"></script>
