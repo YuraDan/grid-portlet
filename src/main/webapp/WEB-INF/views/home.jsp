@@ -13,16 +13,16 @@
 	<!-- Css -->
 	<link href="<%=request.getContextPath()%>/css/main.css" rel="stylesheet"/>
 
-	<!-- Modules -->
-	<script src="<%=request.getContextPath()%>/js/modules/dataView.js"></script>
-
 	<!-- Main app file -->
 	<script src="<%=request.getContextPath()%>/js/app.js"></script>
 </head>
 <body class="prototype">
 <div class="wrapper">
 	<div id="detailInfo" class="detailInfo">
-		<gr-data-view class="dataTable"></gr-data-view>
+		<div class="dataTable" ng-controller="singleDxController">
+			<div dx-data-grid="settings.dxComponent">    
+			</div>
+		</div>
 		<div style="margin-top: 50px; height: 20px;">
 		</div>
 	</div>
