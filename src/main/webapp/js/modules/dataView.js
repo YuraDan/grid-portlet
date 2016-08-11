@@ -17,9 +17,7 @@
 					, eventModelTools) {
 
 					var grid = null,
-						portletId = commonTools.getPortletId(element),
-						userId = parseInt(Liferay.ThemeDisplay.getUserId()),
-						plId = parseInt(Liferay.ThemeDisplay.getPlid());
+						portletId = commonTools.getPortletId(element);
 
 					//--- Контекст ---
 					angular.extend($scope, {
@@ -40,7 +38,7 @@
 					});
 
 					//--- Запрос настроек таблицы ---
-					servicePortlet.getConfig(portletId, userId, plId, gridConfigSuccess, gridConfigError);
+					servicePortlet.getConfig(portletId, gridConfigSuccess, gridConfigError);
 
 					function gridConfigSuccess(config) {
 						var gridComponentName = config.components.dxDataGrid.component,
@@ -60,26 +58,26 @@
 
 						//--- Запрос данных таблицы ---
 						grid.actions.refreshData({});
-					};
+					}
 
 					function gridConfigError(response) {
 						console.error('Ошибка при получении настроек таблицы');
-					};
+					}
 
 					function gridDataSuccess(data) {
 						grid.option('dataSource', data);
-					};
+					}
 
 					function gridDataError(response) {
 						console.error('Ошибка при получении данных');
-					};
+					}
 
 
 					function addExtendedProperties(extendedProperties) {
 						for (var i = 0; i < extendedProperties.length; ++i) (function (props) {
 							addPropertiesForComponent(props);
 						})(extendedProperties[i]);
-					};
+					}
 
 					function addPropertiesForComponent(properties) {
 						var dxComponent = null,
@@ -96,23 +94,22 @@
 							var actions = {};
 							switch (properties.componentType) {
 								case "dxDataGrid":
-									actions.refreshData = getRefreshDataFn(properties.dataSource, userId, gridDataSuccess, gridDataError);
+									actions.refreshData = getRefreshDataFn(properties.dataSource, gridDataSuccess, gridDataError);
 									break;
 							}
 							dxComponent.actions = actions;
 						}
-					};
+					}
 
 					//--- Формирование функции обновления данных ---
-					function getRefreshDataFn(dataSourceName, userId, succesFn, errorFn) {
+					function getRefreshDataFn(dataSourceName, succesFn, errorFn) {
 						return function (params) {
 							servicePortlet.getData(dataSourceName
-								, userId
 								, params
 								, succesFn
 								, errorFn);
 						};
-					};
+					}
 				}]
 		});
 })();
