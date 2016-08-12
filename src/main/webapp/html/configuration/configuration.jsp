@@ -30,7 +30,7 @@
 
 	<!-- Modules -->
     <script src="<%=themePath%>/js/tools/deferredInitialization.js"></script>
-    <script src="<%=themePath%>/js/modules/configurationEditor.js"></script>
+    <script src="<%=themePath%>/js/components/configurationEditor.js"></script>
 
 	<!-- Main app file -->
 	<script src="<%=themePath%>/js/configuration.js"></script>
