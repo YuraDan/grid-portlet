@@ -1,3 +1,3 @@
 (function () {
-    angular.module('gradisDynamicGridTest', ['dx', 'singleDxComponent']);
+    angular.module('gradisGrid', ['dx', 'singleDxComponent']);
 })();

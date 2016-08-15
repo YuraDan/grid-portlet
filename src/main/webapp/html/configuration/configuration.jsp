@@ -38,7 +38,7 @@
     <!-- Редактор конфигурации -->
     <gr-configuration-editor id="configurationEditor"></gr-configuration-editor>
     <script>
-        angular.element(document).ready(function () {
+        Liferay.on('localizationLoaded', function() {
             angular.bootstrap(document.getElementById('configurationEditor'), ['configuration']);
         });
     </script>

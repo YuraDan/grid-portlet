@@ -29,8 +29,10 @@
 </div>
 </body>
 <script>
-	$(document).ready(function () {
+
+	Liferay.on('localizationLoaded', function() {
 		var portletElement = document.getElementById('portlet_<%=portletId%>');
-		angular.bootstrap(portletElement, ['gradisDynamicGridTest']);
+		angular.bootstrap(portletElement, ['gradisGrid']);
 	});
+
 </script>
