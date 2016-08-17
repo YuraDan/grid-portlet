@@ -18,7 +18,7 @@
 </head>
 <body class="prototype">
 <div class="wrapper">
-	<div id="detailInfo" class="detailInfo">
+	<div class="detailInfo">
 		<div class="dataTable" ng-controller="singleDxController">
 			<div dx-data-grid="settings.dxComponent">    
 			</div>
