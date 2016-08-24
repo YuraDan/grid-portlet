@@ -74,5 +74,4 @@ public class GridDataController {
 		return new ResponseEntity<String>("Требуется передать userId, название набора данных и управляющие параметры!", HttpStatus.BAD_REQUEST);
 
 	}
-
 }
